@@ -3,13 +3,23 @@ import { Button, Form, Input, Modal } from 'antd';
 import styles from './TodoModal.css'
 
 const TodoModal = ({ isShow, record, dispatch }) => {
+    const [input, setInput] = React.useState({
+        title: "",
+        description: "",
+    });
+
     function HandleCloseModal() {
         dispatch({
             type: 'modal/hide',
         })
     }
 
-    function HandleSubmitModal() {
+    function HandleSubmitModal(input) {
+        dispatch({
+            type: 'todo/add',
+            payload: input,
+        });
+        console.log(input);
         HandleCloseModal();
     }
 
@@ -20,7 +30,7 @@ const TodoModal = ({ isShow, record, dispatch }) => {
                 visible={isShow}
                 width="650px"
                 onCancel={HandleCloseModal}
-                onOk={HandleSubmitModal}
+                onOk={() => HandleSubmitModal(input)}
             >
                 <Form
                     name="basic"
@@ -36,7 +46,7 @@ const TodoModal = ({ isShow, record, dispatch }) => {
                         name="title"
                         rules={[{ required: true, message: 'Please input todo title!' }]}
                     >
-                        <Input />
+                        <Input value={input.title} onChange={(e) => setInput({ ...input, title: e.target.value})} />
                     </Form.Item>
 
                     <Form.Item
@@ -44,13 +54,7 @@ const TodoModal = ({ isShow, record, dispatch }) => {
                         name="description"
                         rules={[{ required: true, message: 'Please input your description!' }]}
                     >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button style={{ width: "100%" }} type="primary" htmlType="submit">
-                            Submit
-                        </Button>
+                        <Input value={input.description} onChange={(e) => setInput({ ...input, description: e.target.value})} />
                     </Form.Item>
                 </Form>
             </Modal>

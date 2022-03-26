@@ -47,7 +47,6 @@ const TodoTable = ({ dataSource, dispatch }) => {
       render: (text, record) => (
         <Space size="large">
           <Button type="link" onClick={() => HandleChangeStatus(record.key)}>{record.tag === true ? "Mark undone" : "Mark done"}</Button>
-          {/* <Button type="link" onClick={() => HandleChangeStatus(record.key)}>Change status</Button> */}
           <Button type="link">Edit</Button>
           <Button type="link" danger onClick={() => HandleDelete(record.key)}>Delete</Button>
         </Space>

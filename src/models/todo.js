@@ -17,10 +17,16 @@ export default {
   // },
 
   reducers: {
+    add(state, { payload: input }) {
+      const updatedDataSource = state.dataSource.slice();
+      updatedDataSource.push({ key: updatedDataSource[updatedDataSource.length - 1] + 1, title: input.title, description: input.description })
+      
+      return { ...state, dataSource: updatedDataSource };
+    },
     delete(state, { payload: key }) {
       return { ...state, dataSource: state.dataSource.filter(item => item.key !== key) };
     },
-    changestatus(state, { payload: key, tag }) {
+    changestatus(state, { payload: key }) {
       const updatedDataSource = state.dataSource.map(item => item.key === key ? { ...item, tag: !item.tag } : item)
 
       return { ...state, dataSource: updatedDataSource };
