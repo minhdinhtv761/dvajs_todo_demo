@@ -4,14 +4,14 @@ import styles from './TodoModal.css'
 import { useForm } from 'antd/lib/form/Form';
 
 const TodoModal = ({ modal, dispatch }) => {
-    const [form] = useForm()
+    const [form] = useForm();
     
     const [data, setData] = React.useState({
         key: "",
         title: "",
         description: "",
         tag: false,
-    })
+    });
 
     React.useEffect(() => {
         if (modal.currentTodo) setData(modal.currentTodo);
