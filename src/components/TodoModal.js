@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { message, Button, Form, Input, Modal } from 'antd';
 import styles from './TodoModal.css'
 import { useForm } from 'antd/lib/form/Form';
@@ -32,8 +32,6 @@ const TodoModal = ({ modal, dispatch }) => {
         dispatch({
             type: 'modal/hide',
         });
-
-        console.log(data);
         
         setData({
             ...data,
@@ -42,11 +40,9 @@ const TodoModal = ({ modal, dispatch }) => {
             description: "",
             tag: false,
         });
+    }, [dispatch])
 
-        console.log(data);
-    })
-
-    function HandleSubmitModal(data) {
+    const HandleSubmitModal = useCallback(() => {
         if (CheckData()) {
             if (modal.currentTodo) {
                 dispatch({
@@ -62,7 +58,7 @@ const TodoModal = ({ modal, dispatch }) => {
 
         HandleCloseModal();
         }
-    }
+    }, [CheckData, data, dispatch])
 
     return (
         <div className={styles.normal}>
@@ -71,7 +67,7 @@ const TodoModal = ({ modal, dispatch }) => {
                 visible={modal.isShow}
                 width="650px"
                 onCancel={HandleCloseModal}
-                onOk={() => HandleSubmitModal(data)}
+                onOk={HandleSubmitModal}
             >
                 <Form
                     form={form}

@@ -22,8 +22,8 @@ export default {
       show(state, { payload: currentTodo }) {
         return { ...state, isShow: true, currentTodo: currentTodo  };
       },
-      hide(state, { payload: input }) {
-        return { ...state, isShow: false };
+      hide(state) {
+        return { ...state, isShow: false, currentTodo: null };
       },
     },
   

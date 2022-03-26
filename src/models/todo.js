@@ -1,3 +1,4 @@
+import key from 'keymaster';
 
 export default {
 
@@ -5,10 +6,12 @@ export default {
 
   state: {},
 
-  // subscriptions: {
-  //   setup({ dispatch, history }) {  // eslint-disable-line
-  //   },
-  // },
+  subscriptions: {
+    keyboardWatcher({ dispatch }) {
+      key('⌘+left, ctrl+left', () => { dispatch({type:'markallundone'}) });
+      key('⌘+right, ctrl+right', () => { dispatch({type:'markalldone'}) });
+    },
+  },
 
   // effects: {
   //   *fetch({ payload }, { call, put }) {  // eslint-disable-line
@@ -19,7 +22,7 @@ export default {
   reducers: {
     add(state, { payload: input }) {
       const updatedDataSource = state.dataSource.slice();
-      updatedDataSource.push({ key: updatedDataSource[updatedDataSource.length - 1] + 1, title: input.title, description: input.description })
+      updatedDataSource.push({ key: updatedDataSource[updatedDataSource.length - 1].key + 1, title: input.title, description: input.description })
 
       return { ...state, dataSource: updatedDataSource };
     },
