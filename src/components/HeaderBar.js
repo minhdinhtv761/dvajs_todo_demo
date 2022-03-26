@@ -3,7 +3,7 @@ import { Button, PageHeader } from 'antd';
 import { connect } from 'dva';
 import TodoModal from "./TodoModal";
 
-const HeaderBar = ({isShow, dispatch}) => {
+const HeaderBar = ({modal, dispatch}) => {
     function HandleShowModal() {
         dispatch({
             type: 'modal/show',
@@ -33,7 +33,7 @@ const HeaderBar = ({isShow, dispatch}) => {
                     </Button>,
                 ]}
             />
-            <TodoModal isShow={isShow} dispatch={dispatch} />
+            <TodoModal modal={modal} dispatch={dispatch} />
         </div>
     );
 }
@@ -42,7 +42,7 @@ HeaderBar.propTypes = {
 }
 
 function mapStateToProps(state) {
-    return { isShow: state.modal.isShow }
+    return { modal: state.modal }
   }
 
 export default connect(mapStateToProps)(HeaderBar);

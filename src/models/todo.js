@@ -20,7 +20,12 @@ export default {
     add(state, { payload: input }) {
       const updatedDataSource = state.dataSource.slice();
       updatedDataSource.push({ key: updatedDataSource[updatedDataSource.length - 1] + 1, title: input.title, description: input.description })
-      
+
+      return { ...state, dataSource: updatedDataSource };
+    },
+    edit(state, { payload: input }) {
+      const updatedDataSource = state.dataSource.map(item => item.key === input.key ? { ...item, title: input.title, description: input.description } : item)
+
       return { ...state, dataSource: updatedDataSource };
     },
     delete(state, { payload: key }) {
@@ -42,5 +47,4 @@ export default {
       return { ...state, dataSource: updatedDataSource };
     },
   },
-
 };

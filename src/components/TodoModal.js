@@ -1,60 +1,98 @@
 import React from 'react';
-import { Button, Form, Input, Modal } from 'antd';
+import { message, Button, Form, Input, Modal } from 'antd';
 import styles from './TodoModal.css'
+import { useForm } from 'antd/lib/form/Form';
 
-const TodoModal = ({ isShow, record, dispatch }) => {
-    const [input, setInput] = React.useState({
+const TodoModal = ({ modal, dispatch }) => {
+    const [form] = useForm()
+    
+    const [data, setData] = React.useState({
+        key: "",
         title: "",
         description: "",
-    });
+        tag: false,
+    })
 
-    function HandleCloseModal() {
-        dispatch({
-            type: 'modal/hide',
-        })
+    React.useEffect(() => {
+        if (modal.currentTodo) setData(modal.currentTodo);
+    }, [modal.currentTodo]);
+
+    function CheckData() {
+        if (data.title === "" || !data.title) {
+            message.error('Empty title');
+            return false;
+        } else if (data.description === "" || !data.description) {
+            ('Empty description');
+            return false;
+        }
+        return true;
     }
 
-    function HandleSubmitModal(input) {
+    const  HandleCloseModal = React.useCallback(() => {
         dispatch({
-            type: 'todo/add',
-            payload: input,
+            type: 'modal/hide',
         });
-        console.log(input);
+
+        console.log(data);
+        
+        setData({
+            ...data,
+            key: "",
+            title: "",
+            description: "",
+            tag: false,
+        });
+
+        console.log(data);
+    })
+
+    function HandleSubmitModal(data) {
+        if (CheckData()) {
+            if (modal.currentTodo) {
+                dispatch({
+                    type: 'todo/edit',
+                    payload: data,
+                })
+            } else {
+                dispatch({
+                    type: 'todo/add',
+                    payload: data,
+                });
+            }
+
         HandleCloseModal();
+        }
     }
 
     return (
         <div className={styles.normal}>
             <Modal
                 title="Todo Modal"
-                visible={isShow}
+                visible={modal.isShow}
                 width="650px"
                 onCancel={HandleCloseModal}
-                onOk={() => HandleSubmitModal(input)}
+                onOk={() => HandleSubmitModal(data)}
             >
                 <Form
+                    form={form}
                     name="basic"
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 50 }}
                     initialValues={{ remember: true }}
-                    onFinish={() => { }}
-                    onFinishFailed={() => { }}
                     autoComplete="off"
                 >
                     <Form.Item
                         label="Title"
                         name="title"
-                        rules={[{ required: true, message: 'Please input todo title!' }]}
                     >
-                        <Input value={input.title} onChange={(e) => setInput({ ...input, title: e.target.value})} />
+                        <Input value={data.title} onChange={(e) => setData({ ...data, title: e.target.value })} />
                     </Form.Item>
 
                     <Form.Item
                         label="Description"
                         name="description"
-                        rules={[{ required: true, message: 'Please input your description!' }]}
                     >
-                        <Input value={input.description} onChange={(e) => setInput({ ...input, description: e.target.value})} />
+                        <Input value={data.description} onChange={(e) => setData({ ...data, description: e.target.value })} />
                     </Form.Item>
                 </Form>
             </Modal>

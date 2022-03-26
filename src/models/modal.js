@@ -1,3 +1,4 @@
+import key from 'keymaster';
 
 export default {
 
@@ -5,10 +6,11 @@ export default {
   
     state: {},
   
-    // subscriptions: {
-    //   setup({ dispatch, history }) {  // eslint-disable-line
-    //   },
-    // },
+    subscriptions: {
+      keyboardWatcher({ dispatch }) {
+        key('⌘+up, ctrl+up', () => { dispatch({type:'show'}) });
+      },
+    },
   
     // effects: {
     //   *fetch({ payload }, { call, put }) {  // eslint-disable-line
@@ -17,10 +19,10 @@ export default {
     // },
   
     reducers: {
-      show(state) {
-        return { ...state, isShow: true };
+      show(state, { payload: currentTodo }) {
+        return { ...state, isShow: true, currentTodo: currentTodo  };
       },
-      hide(state) {
+      hide(state, { payload: input }) {
         return { ...state, isShow: false };
       },
     },

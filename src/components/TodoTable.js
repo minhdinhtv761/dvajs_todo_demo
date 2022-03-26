@@ -10,6 +10,13 @@ const TodoTable = ({ dataSource, dispatch }) => {
     });
   }
 
+  function HandleShowModal(currentTodo) {
+    dispatch({
+        type: 'modal/show',
+        payload: currentTodo,
+    })
+}
+
   function HandleChangeStatus(key) {
     dispatch({
       type: 'todo/changestatus',
@@ -47,7 +54,7 @@ const TodoTable = ({ dataSource, dispatch }) => {
       render: (text, record) => (
         <Space size="large">
           <Button type="link" onClick={() => HandleChangeStatus(record.key)}>{record.tag === true ? "Mark undone" : "Mark done"}</Button>
-          <Button type="link">Edit</Button>
+          <Button type="link" onClick={() => HandleShowModal(record)}>Edit</Button>
           <Button type="link" danger onClick={() => HandleDelete(record.key)}>Delete</Button>
         </Space>
       ),

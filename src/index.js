@@ -28,6 +28,7 @@ const app = dva({
         },
         modal: {
             isShow: false,
+            currentTodo: null,
         },
     }
 });
