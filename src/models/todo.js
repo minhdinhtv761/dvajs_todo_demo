@@ -17,21 +17,23 @@ export default {
   // },
 
   reducers: {
-    // save(state, action) {
-    //   return { ...state, ...action.payload };
-    // },
     delete(state, { payload: key }) {
-      const newState = { ...state };
-      
-      newState.dataSource.forEach(deleteItem);
+      return { ...state, dataSource: state.dataSource.filter(item => item.key !== key) };
+    },
+    changestatus(state, { payload: key, tag }) {
+      const updatedDataSource = state.dataSource.map(item => item.key === key ? { ...item, tag: !item.tag } : item)
 
-      function deleteItem(item, index, arr) {
-        if (item.key === key) {
-          arr.splice(index, 1);
-        }
-      }
+      return { ...state, dataSource: updatedDataSource };
+    },
+    markalldone(state) {
+      const updatedDataSource = state.dataSource.map(item => item.tag === false ? { ...item, tag: true } : item)
 
-      return { ...state, dataSource: newState.dataSource };
+      return { ...state, dataSource: updatedDataSource };
+    },
+    markallundone(state) {
+      const updatedDataSource = state.dataSource.map(item => item.tag === true ? { ...item, tag: false } : item)
+
+      return { ...state, dataSource: updatedDataSource };
     },
   },
 

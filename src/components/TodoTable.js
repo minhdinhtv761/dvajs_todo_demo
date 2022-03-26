@@ -1,15 +1,20 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Tag, Space } from 'antd';
+import { Button, Table, Tag, Space } from 'antd';
 
-const TodoTable = ({ dispatch, todo }) => {
-  function handleDelete(key) {
+const TodoTable = ({ dataSource, dispatch }) => {
+  function HandleDelete(key) {
     dispatch({
       type: 'todo/delete',
       payload: key,
     });
+  }
 
-    console.log(todo);
+  function HandleChangeStatus(key) {
+    dispatch({
+      type: 'todo/changestatus',
+      payload: key
+    })
   }
 
   const columns = [
@@ -41,17 +46,17 @@ const TodoTable = ({ dispatch, todo }) => {
       key: 'action',
       render: (text, record) => (
         <Space size="large">
-          <a>Edit</a>
-          <a onClick={() => handleDelete(record.key)}>Delete</a>
+          <Button type="link" onClick={() => HandleChangeStatus(record.key)}>{record.tag === true ? "Mark undone" : "Mark done"}</Button>
+          {/* <Button type="link" onClick={() => HandleChangeStatus(record.key)}>Change status</Button> */}
+          <Button type="link">Edit</Button>
+          <Button type="link" danger onClick={() => HandleDelete(record.key)}>Delete</Button>
         </Space>
       ),
     },
   ];
 
   return (
-    <div>
-      <Table columns={columns} dataSource={todo.dataSource} />
-    </div>
+    <Table columns={columns} dataSource={dataSource} />
   );
 }
 
@@ -59,7 +64,7 @@ TodoTable.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return { todo: state.todo }
+  return { dataSource: state.todo.dataSource }
 }
 
 export default connect(mapStateToProps)(TodoTable);
