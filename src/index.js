@@ -30,6 +30,18 @@ const app = dva({
             isShow: false,
             currentTodo: null,
         },
+        dog: {
+            dataSource: [
+                {
+                    message: `https://images.dog.ceo//breeds//poodle-miniature//n02113712_5210.jpg`,
+                    status: `success`,
+                },
+                {
+                    message: `https://images.dog.ceo//breeds//corgi-cardigan//n02113186_5242.jpg`,
+                    status: `success`,
+                },
+            ]
+        }
     }
 });
 
@@ -39,6 +51,7 @@ const app = dva({
 // 3. Model
 app.model(require('./models/todo').default);
 app.model(require('./models/modal').default);
+app.model(require('./models/dog').default);
 
 // 4. Router
 app.router(require('./router').default);

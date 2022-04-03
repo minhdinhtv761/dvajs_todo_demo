@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { Layout } from 'antd';
 import styles from './TodoPage.css';
-import TodoTable from '../components/TodoTable';
-import HeaderBar from '../components/HeaderBar';
+import TodoTable from '../../components/todo/TodoTable';
+import TodoHeaderBar from '../../components/todo/TodoHeaderBar';
 
 const { Header, Content, Footer } = Layout;
 
@@ -11,7 +11,7 @@ function TodoPage() {
   return (
     <Layout>
       <Header>
-        <HeaderBar />
+        <TodoHeaderBar />
       </Header>
       <Content style={{padding: "0px 50px"}}>
         <div className={styles.normal}>
